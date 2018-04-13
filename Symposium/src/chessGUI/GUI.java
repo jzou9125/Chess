@@ -58,7 +58,6 @@ public class GUI {
 		}
 		f.add(chessBoard, mLayout);
 
-
 		JTable scoreBoard = new JTable(new DefaultTableModel(new Object[]{"Turn","White Action", "Black Action", "Points"}, 0));
 		JScrollPane scroll = new JScrollPane(scoreBoard);
 
