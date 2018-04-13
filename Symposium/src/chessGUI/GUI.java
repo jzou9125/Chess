@@ -1,20 +1,15 @@
 package chessGUI;
 
-import java.awt.Component;
-import java.awt.Graphics;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.TableColumn;
-
+import javax.swing.table.DefaultTableModel;
 import chessBoard.ChessBoard;
 
 public class GUI {
@@ -24,47 +19,56 @@ public class GUI {
 	}
 
 	public static void main(String[] args) {
+		ImageIcon[] tileFile = {new ImageIcon("Images/White Tile.png"), new ImageIcon("Images/Black Tile.png")};
 		JFrame f = new JFrame();
+		f.setLayout(new FlowLayout());
 		f.setVisible(true);
-		f.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		f.setSize(1000, 1000);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		FlowLayout mLayout = new FlowLayout();
 
-		JPanel chessBoard = new JPanel(new GridBagLayout() );
+		JPanel chessBoard = new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 0;
-		for(int i = 1; i< 82; i++)
+		c.fill = GridBagConstraints.BOTH;
+		for(int i = 1; i< 81; i++)
 		{
-			c.gridy = i%9;
-			c.gridx = i/9;
+			c.gridy = (i%9);
+			c.gridx = (i/9);
 			if(c.gridx == 0)
 			{
-				JLabel alpha = new JLabel(ChessBoard.col[c.gridy]);
-				chessBoard.add(alpha);
+				JLabel alpha = new JLabel(ChessBoard.col[c.gridy -1]);
+				chessBoard.add(alpha,c);
 			}
 			else
 			{
 				if(c.gridy == 0)
 				{
-					JLabel num = new JLabel(Integer.toString(c.gridx-1));
-					chessBoard.add(num);
+					JLabel num = new JLabel(Integer.toString(c.gridx));
+					num.setHorizontalAlignment(JLabel.CENTER);;
+					chessBoard.add(num,c);
 				}
 				else
 				{
-					JLabel tile = new JLabel(new ImageIcon()); // add iamge later
-
-					chessBoard.add(tile);
+					JLabel tile = new JLabel(tileFile[i%2]);
+					chessBoard.add(tile,c);
 				}
 			}
 		}
-		f.add(chessBoard);
+		f.add(chessBoard, mLayout);
 
-		String[] colNames = {"Turn","White Action", "Black Action", "Points"};
-		JTable scoreBoard = new JTable(null, colNames);
-		scoreBoard.setVisible(true);
-		f.add(scoreBoard);
-		
-		
+
+		JTable scoreBoard = new JTable(new DefaultTableModel(new Object[]{"Turn","White Action", "Black Action", "Points"}, 0));
+		JScrollPane scroll = new JScrollPane(scoreBoard);
+
+		f.add(scroll, mLayout);
+
+		f.pack();
+		f.revalidate();
+		f.repaint();
+
+
 	}
 
 }
