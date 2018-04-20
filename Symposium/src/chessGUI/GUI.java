@@ -3,6 +3,8 @@ package chessGUI;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,6 +22,7 @@ public class GUI {
 
 	public static void main(String[] args) {
 		ImageIcon[] tileFile = {new ImageIcon("Images/White Tile.png"), new ImageIcon("Images/Black Tile.png")};
+		ChessBoard board = new ChessBoard();
 		JFrame f = new JFrame();
 		f.setLayout(new FlowLayout());
 		f.setVisible(true);
@@ -53,6 +56,16 @@ public class GUI {
 				{
 					JLabel tile = new JLabel(tileFile[i%2]);
 					chessBoard.add(tile,c);
+					if(board.getBoard()[c.gridy -1][c.gridx-1].getPiece() != null)
+					{
+						ImageIcon imgI = board.getBoard()[c.gridy -1][c.gridx -1].getPiece().getPieceImage();
+						Image img = imgI.getImage();
+						Image newimg = img.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
+						imgI = new ImageIcon(newimg);
+						JLabel piece = new JLabel(imgI);
+						piece.setSize(tile.getIcon().getIconWidth(), tile.getIcon().getIconWidth());
+						chessBoard.add(piece,c );
+					}
 				}
 			}
 		}

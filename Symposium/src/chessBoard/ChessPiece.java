@@ -1,15 +1,21 @@
 package chessBoard;
 
-import java.awt.Image;
+import javax.swing.ImageIcon;
 
 public class ChessPiece {
 
 	String pieceType;
-	Image pieceImage;
-	public ChessPiece( String desc, Image image) {
+	ImageIcon pieceImage;
+	public ChessPiece( String desc, ImageIcon image) {
 		pieceType = desc;
 		pieceImage = image;
 		
+	}
+	public String getPieceType() {
+		return pieceType;
+	}
+	public ImageIcon getPieceImage() {
+		return pieceImage;
 	}
 
 }
