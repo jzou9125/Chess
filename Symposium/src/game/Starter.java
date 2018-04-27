@@ -1,9 +1,16 @@
 package game;
 
+import chessBoard.ChessBoard;
+import chessGUI.GUI;
+
 public class Starter {
 
+	private	ChessBoard board;
+	private GUI fGame;
+	
 	public Starter() {
-		// TODO Auto-generated constructor stub
+		board = new ChessBoard();
+		fGame = new GUI(board);
 	}
 
 	public static void main(String[] args) {
@@ -17,5 +24,11 @@ public class Starter {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public ChessBoard getBoard()
+	{
+		return board;
+	}
+
 
 }

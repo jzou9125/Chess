@@ -2,26 +2,28 @@ package chessBoard;
 
 import java.awt.Image;
 
+import javax.swing.ImageIcon;
+
 public class BoardTile {
 
-	ChessPiece piece;
-	BoardTile[] pawnMovements = new BoardTile[3];
-	BoardTile[] knightMovements = new BoardTile[8];
-	BoardTile[] bishopMovements = new BoardTile[13];
-	BoardTile[] queenMovements = new BoardTile[27];
-	BoardTile[] rookMovements = new BoardTile[14];
-	BoardTile[] kingMovements = new BoardTile[8];
-	String col;
-	int row;
-	Image tileImage;
+	private ChessPiece piece;
+	private String [][] pawnMovements = new String[3][2];
+	private String[][] knightMovements = new String[8][2];
+	private String[][] bishopMovements = new String[13][2];
+	private String[][] queenMovements = new String[27][2];
+	private String[][] rookMovements = new String[14][2];
+	private String[][] kingMovements = new String[8][2];
+	private String col;
+	private int row;
+	private ImageIcon tileImage;
 	
-	public BoardTile(ChessPiece piece, Image tile, String col, int row) {
+	public BoardTile(ChessPiece piece, ImageIcon tile, String col, int row) {
 		this.piece = piece;
 		tileImage = tile;
 		this.col = col;
 		this.row = row;
 	}
-	public BoardTile(BoardTile[] pawn, BoardTile[] knight, BoardTile[] bishop, BoardTile[] queen, BoardTile[] rook, BoardTile[] king, Image tile, String col, int row) {
+	public BoardTile(String[][] pawn, String[][] knight, String[][] bishop, String[][] queen, String[][] rook, String[][] king, ImageIcon tile, String col, int row) {
 		pawnMovements = pawn;
 		knightMovements = knight;
 		bishopMovements = bishop;
@@ -42,6 +44,51 @@ public class BoardTile {
 	public void setChessPiece(ChessPiece piece)
 	{
 		this.piece = piece; 
+	}
+	public void setPawnMovements(String[][] pawnMovements) {
+		this.pawnMovements = pawnMovements;
+	}
+	public void setKnightMovements(String[][] knightMovements) {
+		this.knightMovements = knightMovements;
+	}
+	public void setBishopMovements(String[][] bishopMovements) {
+		this.bishopMovements = bishopMovements;
+	}
+	public void setQueenMovements(String[][] queenMovements) {
+		this.queenMovements = queenMovements;
+	}
+	public void setRookMovements(String[][] rookMovements) {
+		this.rookMovements = rookMovements;
+	}
+	public void setKingMovements(String[][] kingMovements) {
+		this.kingMovements = kingMovements;
+	}
+	public String[][] getPawnMovements() {
+		return pawnMovements;
+	}
+	public String[][] getKnightMovements() {
+		return knightMovements;
+	}
+	public String[][] getBishopMovements() {
+		return bishopMovements;
+	}
+	public String[][] getQueenMovements() {
+		return queenMovements;
+	}
+	public String[][] getRookMovements() {
+		return rookMovements;
+	}
+	public String[][] getKingMovements() {
+		return kingMovements;
+	}
+	public String getCol() {
+		return col;
+	}
+	public int getRow() {
+		return row;
+	}
+	public ImageIcon getTileImage() {
+		return tileImage;
 	}
 
 }

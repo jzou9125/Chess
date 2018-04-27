@@ -1,5 +1,7 @@
 package chessBoard;
 
+import java.lang.reflect.Array;
+
 import javax.swing.ImageIcon;
 
 public class ChessBoard {
@@ -13,18 +15,19 @@ public class ChessBoard {
 	private ImageIcon[] BChessImages = {new ImageIcon("Images/BRook.png"), new ImageIcon("Images/BKnight.png"), new ImageIcon("Images/BBishop.png")
 			, new ImageIcon("Images/BQueen.png"), new ImageIcon("Images/BKing.png"),new ImageIcon("Images/BBishop.png"),
 			new ImageIcon("Images/BKnight.png"), new ImageIcon("Images/BRook.png")};
-	
+	private ImageIcon[] tileFile = {new ImageIcon("Images/White Tile.png"), new ImageIcon("Images/Black Tile.png")};
 	public ChessBoard() {
 		for(int row =0; row< board.length; row++ )
 		{
 			for( int col = 0; col< board[row].length; col ++)
 			{
-				board[row][col] = new BoardTile(null, null, this.col[col], row);
+				board[row][col] = new BoardTile(null, tileFile[col%2], this.col[col], row);
 			}
 		}
 		populateBoard();
+		giveMov();
 	}
-	
+
 	public void populateBoard() {
 		for(int row = 0; row< board.length; row ++)
 		{
@@ -46,17 +49,55 @@ public class ChessBoard {
 				{
 					board[row][col].setChessPiece(new ChessPiece(chessPieces[col], BChessImages[col]));
 				}
-				
+
 			}
 		}
 	}
-	
+	public void giveMov()
+	{
+		for(int whole =0; whole < 81; whole++)
+		{
+			for(int row =0; row<board.length; row++)
+			{
+				for( int col = 0; col< board[row].length; col++)
+				{
+					board[row][col].setBishopMovements(bishop(board[row][col]));
+				}
+			}
+		}
+	}
+	public String[][] bishop(BoardTile current)
+	{
+
+		String[][] temp = new String[13][2];
+		for(int i = 1; i<8; i++)
+		{
+			if(CindexOf(current.getCol()) - i > 0)
+			{
+				String[] 
+			}
+		}
+		
+		return temp;
+	}
+
+	public int CindexOf(String alpha)
+	{
+		for(int i= 0; i< col.length; i++)
+		{
+			if(col[i].compareTo(alpha) == 0)
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
 	public void move(ChessPiece piece, BoardTile target, BoardTile previous)
 	{
 		target.setChessPiece(piece);
 		previous.setChessPiece(null);
 	}
-	
+
 	public BoardTile[][] getBoard() {
 		return board;
 	}

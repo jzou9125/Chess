@@ -2,8 +2,9 @@ package reinforcementAi;
 
 public class ReinforcementAlgorithm {
 
-	
-	public ReinforcementAlgorithm(int state)
+	int[][] neuralNet = new int[8][4];
+	int[][] connections = new int[8][64];
+	public ReinforcementAlgorithm()
 	{
 		
 	}

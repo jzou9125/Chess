@@ -15,16 +15,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import chessBoard.ChessBoard;
+import game.Starter;
 
 public class GUI {
 
-	public GUI() {
-		// TODO Auto-generated constructor stub
-	}
-
-	public static void main(String[] args) {
+	public GUI(ChessBoard board) {
 		ImageIcon[] tileFile = {new ImageIcon("Images/White Tile.png"), new ImageIcon("Images/Black Tile.png")};
-		ChessBoard board = new ChessBoard();
 		JFrame f = new JFrame();
 		f.setLayout(new FlowLayout());
 		f.setVisible(true);
@@ -59,7 +55,7 @@ public class GUI {
 				}
 				else
 				{
-					JLabel tile = new JLabel(tileFile[i%2]);
+					JLabel tile = new JLabel(board.getBoard()[c.gridy-1][c.gridx-1].getTileImage());
 					chessBoard.add(tile,c);
 					if(board.getBoard()[c.gridy -1][c.gridx-1].getPiece() != null)
 					{
@@ -89,8 +85,9 @@ public class GUI {
 		f.pack();
 		f.revalidate();
 		f.repaint();
-
-
 	}
-
+	public void update()
+	{
+		
+	}
 }
