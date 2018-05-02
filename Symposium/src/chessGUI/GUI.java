@@ -20,7 +20,6 @@ import game.Starter;
 public class GUI {
 
 	public GUI(ChessBoard board) {
-		ImageIcon[] tileFile = {new ImageIcon("Images/White Tile.png"), new ImageIcon("Images/Black Tile.png")};
 		JFrame f = new JFrame();
 		f.setLayout(new FlowLayout());
 		f.setVisible(true);
@@ -77,7 +76,7 @@ public class GUI {
 		chessBoard.setBounds(0, 0,950, 950);
 		f.add(chessW, mLayout);
 
-		JTable scoreBoard = new JTable(new DefaultTableModel(new Object[]{"Turn","White Action", "Black Action", "Points"}, 0));
+		JTable scoreBoard = new JTable(new DefaultTableModel(new String[]{"Turn","White Action", "Black Action", "Points"}, 0));
 		JScrollPane scroll = new JScrollPane(scoreBoard);
 
 		f.add(scroll, mLayout);

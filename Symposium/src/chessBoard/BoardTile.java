@@ -7,7 +7,8 @@ import javax.swing.ImageIcon;
 public class BoardTile {
 
 	private ChessPiece piece;
-	private String [][] pawnMovements = new String[3][2];
+	private String[][] bPawnMovements = new String[3][2];
+	private String[][] wPawnMovements = new String[3][2];
 	private String[][] knightMovements = new String[8][2];
 	private String[][] bishopMovements = new String[13][2];
 	private String[][] queenMovements = new String[27][2];
@@ -23,18 +24,6 @@ public class BoardTile {
 		this.col = col;
 		this.row = row;
 	}
-	public BoardTile(String[][] pawn, String[][] knight, String[][] bishop, String[][] queen, String[][] rook, String[][] king, ImageIcon tile, String col, int row) {
-		pawnMovements = pawn;
-		knightMovements = knight;
-		bishopMovements = bishop;
-		queenMovements = queen;
-		rookMovements = rook;
-		kingMovements = king;
-		
-		tileImage = tile;
-		this.row = row;
-		this.col = col;
-	}
 	
 	public ChessPiece getPiece()
 	{
@@ -44,9 +33,6 @@ public class BoardTile {
 	public void setChessPiece(ChessPiece piece)
 	{
 		this.piece = piece; 
-	}
-	public void setPawnMovements(String[][] pawnMovements) {
-		this.pawnMovements = pawnMovements;
 	}
 	public void setKnightMovements(String[][] knightMovements) {
 		this.knightMovements = knightMovements;
@@ -63,8 +49,17 @@ public class BoardTile {
 	public void setKingMovements(String[][] kingMovements) {
 		this.kingMovements = kingMovements;
 	}
-	public String[][] getPawnMovements() {
-		return pawnMovements;
+	public String[][] getbPawnMovements() {
+		return bPawnMovements;
+	}
+	public void setbPawnMovements(String[][] bPawnMovements) {
+		this.bPawnMovements = bPawnMovements;
+	}
+	public String[][] getwPawnMovements() {
+		return wPawnMovements;
+	}
+	public void setwPawnMovements(String[][] wPawnMovements) {
+		this.wPawnMovements = wPawnMovements;
 	}
 	public String[][] getKnightMovements() {
 		return knightMovements;
