@@ -19,17 +19,43 @@ import game.Starter;
 
 public class GUI {
 
+	private JFrame f;
+	private JLayeredPane chessW;
+	private ChessBoard b;
+	private JScrollPane scroll;
 	public GUI(ChessBoard board) {
-		JFrame f = new JFrame();
+		b = board;
+		f = new JFrame();
 		f.setLayout(new FlowLayout());
 		f.setVisible(true);
 		f.setSize(1000, 1000);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		FlowLayout mLayout = new FlowLayout();
+		JTable scoreBoard = new JTable(new DefaultTableModel(new String[]{"Turn","White Action", "Black Action", "Points"}, 0));
+		scroll = new JScrollPane(scoreBoard);
+		redrawBoard();
 
-		JLayeredPane chessW  = new JLayeredPane();
+		f.pack();
+		f.revalidate();
+		f.repaint();
+	}
+	public void update()
+	{
+		redrawBoard();
+		f.pack();
+		f.revalidate();
+		f.repaint();
+
+	}
+	public void redrawBoard()
+	{
+		if( chessW != null)
+		{
+			f.remove(chessW);
+		}
+
+		chessW = new JLayeredPane();
 		chessW.setPreferredSize(new Dimension(f.getWidth(), f.getHeight()));
-		
+
 		JPanel chessBoard = new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
@@ -54,11 +80,11 @@ public class GUI {
 				}
 				else
 				{
-					JLabel tile = new JLabel(board.getBoard()[c.gridy-1][c.gridx-1].getTileImage());
+					JLabel tile = new JLabel(b.getBoard()[c.gridy-1][c.gridx-1].getTileImage());
 					chessBoard.add(tile,c);
-					if(board.getBoard()[c.gridy -1][c.gridx-1].getPiece() != null)
+					if(b.getBoard()[c.gridy -1][c.gridx-1].getPiece() != null)
 					{
-						ImageIcon imgI = board.getBoard()[c.gridy -1][c.gridx -1].getPiece().getPieceImage();
+						ImageIcon imgI = b.getBoard()[c.gridy -1][c.gridx -1].getPiece().getPieceImage();
 						Image img = imgI.getImage();
 						Image newimg = img.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
 						imgI = new ImageIcon(newimg);
@@ -66,7 +92,7 @@ public class GUI {
 						chessW.setLayer(piece, JLayeredPane.POPUP_LAYER);
 						chessW.add(piece);
 						piece.setBounds(c.gridx *100-20, c.gridy *100 -20, tile.getIcon().getIconWidth(), tile.getIcon().getIconHeight());
-						
+
 					}
 				}
 			}
@@ -74,19 +100,8 @@ public class GUI {
 		chessW.setLayer(chessBoard, JLayeredPane.DEFAULT_LAYER);
 		chessW.add(chessBoard);
 		chessBoard.setBounds(0, 0,950, 950);
-		f.add(chessW, mLayout);
-
-		JTable scoreBoard = new JTable(new DefaultTableModel(new String[]{"Turn","White Action", "Black Action", "Points"}, 0));
-		JScrollPane scroll = new JScrollPane(scoreBoard);
-
-		f.add(scroll, mLayout);
-
-		f.pack();
-		f.revalidate();
-		f.repaint();
+		f.add(chessW, f.getLayout(), 0);
+		f.add(scroll, f.getLayout());
 	}
-	public void update()
-	{
-		
-	}
+
 }

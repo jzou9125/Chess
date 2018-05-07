@@ -1,10 +1,11 @@
 package chessBoard;
 
 import java.awt.Image;
+import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 
-public class BoardTile {
+public class BoardTile implements Serializable {
 
 	private ChessPiece piece;
 	private String[][] bPawnMovements = new String[3][2];

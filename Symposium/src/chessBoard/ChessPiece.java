@@ -1,8 +1,10 @@
 package chessBoard;
 
+import java.io.Serializable;
+
 import javax.swing.ImageIcon;
 
-public class ChessPiece {
+public class ChessPiece implements Serializable{
 
 	String pieceType;
 	ImageIcon pieceImage;
