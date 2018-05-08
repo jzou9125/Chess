@@ -15,13 +15,7 @@ public class Starter {
 
 	public static void main(String[] args) {
 		Starter game = new Starter();
-		game.start();
 
-	}
-
-	private void start() {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	public ChessBoard getBoard()

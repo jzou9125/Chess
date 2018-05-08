@@ -8,6 +8,9 @@ public class ChessBoard {
 
 	private BoardTile[][] board = new BoardTile[8][8];
 	public static final String[] col = {"A", "B", "C", "D", "E", "F", "G", "H"};/*
+	
+	
+	
 	private String[] chessPieces = {"Rook", "Knight", "Bishop", "Queen", "King", "Bishop","Knight","Rook"};
 	private ImageIcon[] chessImages = {new ImageIcon("Images/Rook.png"), new ImageIcon("Images/Knight.png"), new ImageIcon("Images/Bishop.png")
 			, new ImageIcon("Images/Queen.png"), new ImageIcon("Images/King.png"),new ImageIcon("Images/Bishop.png"),
