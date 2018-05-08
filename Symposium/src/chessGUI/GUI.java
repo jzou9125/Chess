@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
@@ -23,17 +24,17 @@ public class GUI {
 	private JLayeredPane chessW;
 	private ChessBoard b;
 	private JScrollPane scroll;
+	private GridLayout l;
 	public GUI(ChessBoard board) {
 		b = board;
 		f = new JFrame();
-		f.setLayout(new FlowLayout());
+		l = new GridLayout(1,2);
+		f.setLayout(l);
 		f.setVisible(true);
 		f.setSize(1000, 1000);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		JTable scoreBoard = new JTable(new DefaultTableModel(new String[]{"Turn","White Action", "Black Action", "Points"}, 0));
-		scroll = new JScrollPane(scoreBoard);
 		redrawBoard();
-
+		
 		f.pack();
 		f.revalidate();
 		f.repaint();
@@ -48,11 +49,19 @@ public class GUI {
 	}
 	public void redrawBoard()
 	{
+		
 		if( chessW != null)
 		{
 			f.remove(chessW);
 		}
-
+		if(scroll != null)
+		{
+			f.remove(scroll);
+		}
+		
+		JTable scoreBoard = new JTable(new DefaultTableModel(new String[]{"Turn","White Action", "Black Action", "Points"}, 0));
+		scroll = new JScrollPane(scoreBoard);
+		
 		chessW = new JLayeredPane();
 		chessW.setPreferredSize(new Dimension(f.getWidth(), f.getHeight()));
 
@@ -100,8 +109,9 @@ public class GUI {
 		chessW.setLayer(chessBoard, JLayeredPane.DEFAULT_LAYER);
 		chessW.add(chessBoard);
 		chessBoard.setBounds(0, 0,950, 950);
-		f.add(chessW, f.getLayout(), 0);
-		f.add(scroll, f.getLayout());
+
+		f.add(chessW, l);
+		f.add(scroll, l);
 	}
 
 }

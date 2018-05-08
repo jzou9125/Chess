@@ -11,7 +11,6 @@ public class Starter {
 	public Starter() {
 		board = new ChessBoard();
 		fGame = new GUI(board);
-		fGame.update();
 	}
 
 	public static void main(String[] args) {
