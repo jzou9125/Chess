@@ -18,17 +18,50 @@ public class BoardTile implements Serializable {
 	private String col;
 	private int row;
 	private ImageIcon tileImage;
-	
+
 	public BoardTile(ChessPiece piece, ImageIcon tile, String col, int row) {
 		this.piece = piece;
 		tileImage = tile;
 		this.col = col;
 		this.row = row;
 	}
-	
+
 	public ChessPiece getPiece()
 	{
 		return piece;
+	}
+
+	public String[][] getmov(String s)
+	{
+		if(s.equals("WPawn"))
+		{
+			return getwPawnMovements();
+		}
+		if(s.equals("BPawn"))
+		{
+			return getbPawnMovements();
+		}
+		if(s.equals("Bishop"))
+		{
+			return getBishopMovements();
+		}
+		if(s.equals("Queen"))
+		{
+			return getQueenMovements();
+		}
+		if(s.equals("King"))
+		{
+			return getKingMovements();
+		}
+		if(s.equals("Rook"))
+		{
+			return getRookMovements();
+		}
+		if(s.equals("Knight"))
+		{
+			return getKnightMovements();
+		}
+		return null;
 	}
 	
 	public void setChessPiece(ChessPiece piece)

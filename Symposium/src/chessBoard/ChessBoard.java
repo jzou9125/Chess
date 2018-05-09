@@ -7,9 +7,8 @@ import java.io.ObjectInputStream;
 public class ChessBoard {
 
 	private BoardTile[][] board = new BoardTile[8][8];
-	public static final String[] col = {"A", "B", "C", "D", "E", "F", "G", "H"};/*
-	
-	
+	public static final String[] col = {"A", "B", "C", "D", "E", "F", "G", "H"};
+	/*
 	
 	private String[] chessPieces = {"Rook", "Knight", "Bishop", "Queen", "King", "Bishop","Knight","Rook"};
 	private ImageIcon[] chessImages = {new ImageIcon("Images/Rook.png"), new ImageIcon("Images/Knight.png"), new ImageIcon("Images/Bishop.png")
@@ -56,6 +55,7 @@ public class ChessBoard {
 		giveMov();
 		writeChessTiles();*/
 	}
+	
 /*
 	private void writeChessTiles() {
 		try {
