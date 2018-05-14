@@ -26,17 +26,5 @@ public class Starter {
 		return board;
 	}
 
-	//two neural networks? (one for actions the other for victory
-	
-	
-	/*
-	 * 
-	 * Insert inputs to neural network and then have the neural network output a value
-	 * 
-	 */
-	public void inputData()
-	{
-		
-	}
 	
 }
