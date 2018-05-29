@@ -30,7 +30,7 @@ public class ChessBoard {
 			i.printStackTrace();
 			return;
 		} catch (ClassNotFoundException c) {
-			System.out.println("Employee class not found");
+			System.out.println("Board not found");
 			c.printStackTrace();
 			return;
 		}/*
@@ -56,6 +56,42 @@ public class ChessBoard {
 		writeChessTiles();*/
 	}
 	
+	public BoardTile[] viableMoves(BoardTile current) //think about the process current: rook (have boolean for direction)
+	{
+		BoardTile[] viableInputs;
+		if(current.getPiece().getPieceType().equals("Rook")) //check if there is anything piece blocking movements
+		{
+			String[][] possibleMoves = current.getRookMovements();
+			viableInputs = new BoardTile[possibleMoves.length];
+			int currentIndex =0;
+			for(int i =0; i< viableInputs.length; i++)
+			{
+				if(board[cIndexOf(possibleMoves[i][0])][Integer.parseInt(possibleMoves[i][1])].getPiece() == null)
+				{
+					viableInputs[currentIndex] = board[cIndexOf(possibleMoves[i][0])][Integer.parseInt(possibleMoves[i][1])];
+					currentIndex ++;
+				}
+				else
+				{
+					changeDirection();
+				}
+			}
+		}
+		
+		return 
+	}
+	
+	public int cIndexOf(String alpha)
+	{
+		for(int i= 0; i< col.length; i++)
+		{
+			if(col[i].compareTo(alpha) == 0)
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
 /*
 	private void writeChessTiles() {
 		try {
@@ -469,17 +505,6 @@ public class ChessBoard {
 		return temp;
 	}
 
-	public int CindexOf(String alpha)
-	{
-		for(int i= 0; i< col.length; i++)
-		{
-			if(col[i].compareTo(alpha) == 0)
-			{
-				return i;
-			}
-		}
-		return -1;
-	}
 	public void move(ChessPiece piece, BoardTile target, BoardTile previous)
 	{
 		target.setChessPiece(piece);

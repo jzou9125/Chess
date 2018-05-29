@@ -1,5 +1,7 @@
 package reinforcementAi;
 
+import chessBoard.ChessBoard;
+
 public class ReinforcementAlgorithm {
 
 	Neuron[][] network = new Neuron[20][64];
@@ -8,37 +10,42 @@ public class ReinforcementAlgorithm {
 		
 	}
 	
-	//Monte Carlo Tree Search backpropagation
+	/*Monte Carlo Tree Search backpropagation
+	find the most promising tree to have the ai often use*/
+	
 	public void trainingMethod()
 	{
+		//move random piece
+		//check if the position is in a good place
 		
 	}
 	
+	
+	//if anything becomes useless
+	//  probably unnecessary
 	public void pruningConnections()
 	{
 		
 	}
 	
-
-	//two neural networks? (one for actions the other for victory
-	
-	
 	/*
-	 * 
-	 * 
+	 * Takes all legal moves
+	 * Takes considers the state
 	 * 
 	 */
-	public void inputData()
-	{
-		for(int i = 0; i<)
-	}
-	
-	public void getState()
+	public void inputData(ChessBoard currentState)
 	{
 		
 	}
 	
-	public void action()
+	// save after determined time or number of games
+	public void saveNN()
+	{
+		
+	}
+	
+
+	public void loadNN()
 	{
 		
 	}

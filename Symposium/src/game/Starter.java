@@ -26,5 +26,14 @@ public class Starter {
 		return board;
 	}
 
+	public boolean actionPosible(String side)
+	{
+		return false;
+	}
 	
+	//https://stackoverflow.com/questions/6236119/how-to-develop-screen-capture-to-video-application
+	public void saveGame()
+	{
+		
+	}
 }

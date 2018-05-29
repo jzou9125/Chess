@@ -25,6 +25,11 @@ public class GUI {
 	private ChessBoard b;
 	private JScrollPane scroll;
 	private GridLayout l;
+	
+	private JPanel currentScreen; // three screens (Load, and the Board)
+	private JPanel loadScreen;
+	private JPanel mainScreen;
+	
 	public GUI(ChessBoard board) {
 		b = board;
 		f = new JFrame();
@@ -39,7 +44,7 @@ public class GUI {
 		f.revalidate();
 		f.repaint();
 	}
-	public void update()
+	public void updateBoard()
 	{
 		redrawBoard();
 		f.pack();
