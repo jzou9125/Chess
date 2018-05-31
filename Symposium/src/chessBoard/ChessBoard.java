@@ -13,8 +13,8 @@ public class ChessBoard {
 	private BoardTile[][] board = new BoardTile[8][8];
 	private int[] direction = {1,-1,1,-1};
 	public static final String[] col = {"A", "B", "C", "D", "E", "F", "G", "H"};
-	
-	
+
+
 	private String[] chessPieces = {"WRook", "WKnight", "WBishop", "WQueen", "WKing", "WBishop","WKnight","WRook"};
 	private String[] chessPiecesB = {"BRook", "BKnight", "BBishop", "BQueen", "BKing", "BBishop","BKnight","BRook"};
 	private ImageIcon[] chessImages = {new ImageIcon("Images/Rook.png"), new ImageIcon("Images/Knight.png"), new ImageIcon("Images/Bishop.png")
@@ -24,6 +24,8 @@ public class ChessBoard {
 			, new ImageIcon("Images/BQueen.png"), new ImageIcon("Images/BKing.png"),new ImageIcon("Images/BBishop.png"),
 			new ImageIcon("Images/BKnight.png"), new ImageIcon("Images/BRook.png")};
 	private ImageIcon[] tileFile = {new ImageIcon("Images/White Tile.png"), new ImageIcon("Images/Black Tile.png")};
+
+	private ChessPiece[] pieces = new ChessPiece[32];
 
 	public ChessBoard() {
 		/*try {
@@ -39,21 +41,17 @@ public class ChessBoard {
 			System.out.println("Board not found");
 			c.printStackTrace();
 			return;*/
-		
+
 		int i = 0;
-		for(int row =0; row< board.length; row++ )
-		{
+		for(int row =0; row< board.length; row++ ) {
 			for( int col = 0; col< board[row].length; col ++)
 			{
-				if(row%2 == 0)
-				{
+				if(row%2 == 0) {
 					board[row][col] = new BoardTile(null, tileFile[i%2], this.col[col], row);
 				}
-				else
-				{
+				else {
 					board[row][col] = new BoardTile(null, tileFile[(i+1)%2], this.col[col], row);
 				}
-
 				i++;
 			}
 		}
@@ -61,27 +59,64 @@ public class ChessBoard {
 		giveMov();
 		writeChessTiles();
 	}
-	
-	public BoardTile[] viableMoves(BoardTile current) //think about the process current: rook (have boolean for direction)
-	{
+
+	public BoardTile[] viableMoves(BoardTile current){
 		BoardTile[] viableInputs = null;
-		if(current.getPiece().getPieceType().equals("Rook")) //check if there is anything piece blocking movements
-		{
-			 viableInputs = rookVia(current.getRookMovements(), current.getCol(), current.getRow(), current.getPiece().getPieceType().substring(0, 1));
+		if(current.getPiece().getPieceType().equals("Rook")) {
+			viableInputs = rookVia(current.getRookMovements(), current.getCol(), current.getRow(), current.getPiece());
 		}
-		else
-		{
-			if(current.getPiece().getPieceType().equals("Knight"))
-			{
-				
-			}
+
+		if(current.getPiece().getPieceType().equals("Knight")) {
+			viableInputs = knightVia(current.getKnightMovements(), current.getPiece());
 		}
-		
+
+		if(current.getPiece().getPieceType().equals("Bishop")) {
+			viableInputs = bishopVia(current.getBishopMovements(), current.getCol(), current.getRow(), current.getPiece());
+		}
+
+
 		return viableInputs;
 	}
-	
-	public BoardTile[] rookVia(String[][] possibleMoves, String currentCol, int currentRow, String check)
-	{
+
+	private BoardTile[] bishopVia(String[][] bishopMovements, String currentCol, int row, ChessPiece piece) {
+		BoardTile[] ans = new BoardTile[bishopMovements.length];
+		BoardTile[] nW = checkNorthWest(bishopMovements, currentCol, row, piece );
+		return null;
+	}
+
+	private BoardTile[] checkNorthWest(String[][] bishopMovements, String currentCol, int row, ChessPiece piece) {
+		BoardTile[]
+
+		return null;
+	}
+
+	private BoardTile[] knightVia(String[][] knightMovements, ChessPiece current) {
+		BoardTile[] ans = new BoardTile[knightMovements.length];
+		int currentIdx = 0;
+		for(int i =0; i< knightMovements.length; i ++) {
+			BoardTile tile = board[cIndexOf(knightMovements[i][0])][Integer.parseInt(knightMovements[i][1])];
+			if(tile.getPiece() != null) {
+				if(compareType(current, tile.getPiece())){
+					ans[currentIdx] = tile;
+					currentIdx ++;
+				}
+			}
+			else{
+				ans[currentIdx] = tile;
+				currentIdx ++;
+			}
+		}
+		return ans;
+	}
+
+	//returns true if the type is different ie different side
+	public boolean compareType(ChessPiece base, ChessPiece other) {
+		if(base.getPieceType().substring(0, 1).compareTo(other.getPieceType().substring(0, 1)) != 0){
+			return true;
+		}
+		return false;
+	}
+	public BoardTile[] rookVia(String[][] possibleMoves, String currentCol, int currentRow, ChessPiece check){
 		int currentIndex =0;
 		BoardTile[] right = checkRight(possibleMoves, currentCol, currentIndex,check);
 		currentIndex += col[7].compareTo(currentCol);
@@ -93,18 +128,18 @@ public class ChessBoard {
 		BoardTile[] viableInputs = append4Arrays(right, left, top, bottom);
 		return viableInputs;
 	}
-	
+
 	private BoardTile[] append4Arrays(BoardTile[] arr1, BoardTile[] arr2, BoardTile[] arr3, BoardTile[] arr4) {
 		int length = arr1.length + arr2.length + arr3.length + arr4.length;
 		BoardTile[] ans = new BoardTile[length];
-		
+
 		int currentIdx =0;
-		
+
 		for( BoardTile e : arr1) {
 			ans[currentIdx] = e;
 			currentIdx ++;
 		}
-		
+
 		for( BoardTile e: arr2) {
 			ans[currentIdx] = e;
 			currentIdx ++;
@@ -117,17 +152,17 @@ public class ChessBoard {
 			ans[currentIdx] = e;
 			currentIdx ++;
 		}
-		
+
 		return ans;
 	}
 
-	private BoardTile[] checkBottom(String[][] possibleMoves, int currentRow, int startIdx, String check) {
+	private BoardTile[] checkBottom(String[][] possibleMoves, int currentRow, int startIdx, ChessPiece check) {
 		BoardTile[] ans = new BoardTile[possibleMoves.length];
 		for(int i = 0; i < 8-currentRow; i++){
 			if(board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])].getPiece() == null)
 				ans[i] = board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])];
-			else{
-				if(board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])].getPiece().getPieceType().compareTo(check) != 0){
+			else {
+				if(compareType(board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])].getPiece(), check)) {
 					ans[i] = board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])];
 					break;
 				}
@@ -137,13 +172,13 @@ public class ChessBoard {
 		return ans;
 	}
 
-	private BoardTile[] checkTop(String[][] possibleMoves, int currentRow, int startIdx, String check) {
+	private BoardTile[] checkTop(String[][] possibleMoves, int currentRow, int startIdx, ChessPiece check) {
 		BoardTile[] ans = new BoardTile[possibleMoves.length];
-		for(int i = 0; i < currentRow; i++){
+		for(int i = 0; i < currentRow; i++) {
 			if(board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])].getPiece() == null)
 				ans[i] = board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])];
-			else{
-				if(board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])].getPiece().getPieceType().compareTo(check) != 0){
+			else {
+				if(compareType(board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])].getPiece(), check)) {
 					ans[i] = board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])];
 					break;
 				}
@@ -153,13 +188,13 @@ public class ChessBoard {
 		return ans;
 	}
 
-	private BoardTile[] checkLeft(String[][] possibleMoves, String currentCol, int startIdx, String check) {
+	private BoardTile[] checkLeft(String[][] possibleMoves, String currentCol, int startIdx, ChessPiece check) {
 		BoardTile[] ans = new BoardTile[possibleMoves.length];
-		for(int i = 0; i<currentCol.compareTo(col[0]); i++){
+		for(int i = 0; i<currentCol.compareTo(col[0]); i++) {
 			if(board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])].getPiece() == null)
 				ans[i] = board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])];
-			else{
-				if(board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])].getPiece().getPieceType().compareTo(check) != 0){
+			else {
+				if(compareType(board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])].getPiece(), check)) {
 					ans[i] = board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])];
 					break;
 				}
@@ -168,14 +203,14 @@ public class ChessBoard {
 		}
 		return ans;
 	}
-	
-	private BoardTile[] checkRight(String[][] possibleMoves, String currentCol, int startIdx, String check) {
+
+	private BoardTile[] checkRight(String[][] possibleMoves, String currentCol, int startIdx, ChessPiece check) {
 		BoardTile[] ans = new BoardTile[possibleMoves.length];
 		for(int i = 0; i<col[7].compareTo(currentCol); i++){
 			if(board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])].getPiece() == null)
 				ans[i] = board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])];
-			else{
-				if(board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])].getPiece().getPieceType().compareTo(check) != 0){
+			else {
+				if(compareType(board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])].getPiece(), check)) {
 					ans[i] = board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])];
 					break;
 				}
@@ -185,12 +220,9 @@ public class ChessBoard {
 		return ans;
 	}
 
-	public int cIndexOf(String alpha)
-	{
-		for(int i= 0; i< col.length; i++)
-		{
-			if(col[i].compareTo(alpha) == 0)
-			{
+	public int cIndexOf(String alpha) {
+		for(int i= 0; i< col.length; i++) {
+			if(col[i].compareTo(alpha) == 0) {
 				return i;
 			}
 		}
@@ -212,51 +244,51 @@ public class ChessBoard {
 
 
 	public void populateBoard() {
-		for(int row = 0; row< board.length; row ++)
-		{
-			for( int col = 0; col< board[row].length; col ++ )
-			{
-				if(row == 1)
-				{	
-					board[row][col].setChessPiece(new ChessPiece("Pawn", new ImageIcon("Images/Pawn.png")));
+		int currentIdx = 0;
+		for(int row = 0; row< board.length; row ++) {
+			for( int col = 0; col< board[row].length; col ++ ) {
+				if(row == 1) {	
+					ChessPiece piece = new ChessPiece("Pawn", new ImageIcon("Images/Pawn.png"), board[row][col]);
+					board[row][col].setChessPiece(piece);
+					pieces[currentIdx] = piece;
+					currentIdx ++;
 				}
-				if(row == 6)
-				{
-					board[row][col].setChessPiece(new ChessPiece("BPawn", new ImageIcon("Images/BPawn.png")));
+				if(row == 6) {
+					ChessPiece piece = new ChessPiece("BPawn", new ImageIcon("Images/BPawn.png"), board[row][col]);
+					board[row][col].setChessPiece(piece);
+					pieces[currentIdx] = piece;
+					currentIdx ++;
 				}
-				if(row == 0)
-				{
-					board[row][col].setChessPiece(new ChessPiece(chessPieces[col], chessImages[col]));
+				if(row == 0) {
+					ChessPiece piece = new ChessPiece(chessPieces[col], chessImages[col], board[row][col]);
+					board[row][col].setChessPiece(piece);
+					pieces[currentIdx] = piece;
+					currentIdx ++;
 				}
-				if(row == 7)
-				{
-					board[row][col].setChessPiece(new ChessPiece(chessPiecesB[col], BChessImages[col]));
+				if(row == 7) {
+					ChessPiece piece = new ChessPiece(chessPiecesB[col], BChessImages[col], board[row][col]);
+					board[row][col].setChessPiece(piece);
+					pieces[currentIdx] = piece;
+					currentIdx ++;
 				}
-
 			}
 		}
 	}
-	public void giveMov()
-	{
-		for(int whole =0; whole < 81; whole++)
-		{
-			for(int row =0; row<board.length; row++)
-			{
-				for( int col = 0; col< board[row].length; col++)
+	public void giveMov() {
+		for(int row =0; row<board.length; row++) {
+			for( int col = 0; col< board[row].length; col++){
+				board[row][col].setBishopMovements(bishop(board[row][col]));
+				board[row][col].setKingMovements(king(board[row][col]));
+				board[row][col].setQueenMovements(queen(board[row][col]));
+				board[row][col].setRookMovements(rook(board[row][col]));
+				board[row][col].setKnightMovements(knight(board[row][col]));
+				if( row > 0)
 				{
-					board[row][col].setBishopMovements(bishop(board[row][col]));
-					board[row][col].setKingMovements(king(board[row][col]));
-					board[row][col].setQueenMovements(queen(board[row][col]));
-					board[row][col].setRookMovements(rook(board[row][col]));
-					board[row][col].setKnightMovements(knight(board[row][col]));
-					if( row > 0)
-					{
-						board[row][col].setwPawnMovements(wpawn(board[row][col]));
-					}
-					if( row < board.length -1 )
-					{
-						board[row][col].setbPawnMovements(bpawn(board[row][col]));
-					}
+					board[row][col].setwPawnMovements(wpawn(board[row][col]));
+				}
+				if( row < board.length -1 )
+				{
+					board[row][col].setbPawnMovements(bpawn(board[row][col]));
 				}
 			}
 		}
@@ -265,24 +297,20 @@ public class ChessBoard {
 		String[][] temp = new String[3][2];
 		int alphaIndex = cIndexOf(current.getCol());
 		int tempRow =0;
-		if( current.getRow() -1 >= 0)
-		{
+		if( current.getRow() -1 >= 0) {
 			String[] iArray = {col[alphaIndex], Integer.toString(current.getRow() - 1)};
 			temp[tempRow] = iArray;
 			tempRow ++;
 
-			if( alphaIndex +1 < board[current.getRow()].length)
-			{
+			if( alphaIndex +1 < board[current.getRow()].length) {
 				String[] iArray2 = {col[alphaIndex +1], Integer.toString(current.getRow() - 1)};
 				temp[tempRow] = iArray2;
 				tempRow ++;
 			}
-			if( alphaIndex -1 >= 0)
-			{
+			if( alphaIndex -1 >= 0) {
 				String[] iArray3 =  {col[alphaIndex -1], Integer.toString(current.getRow() - 1)};
 				temp[tempRow] = iArray3;
 				tempRow++;
-
 			}
 		}
 		return temp;
@@ -292,28 +320,21 @@ public class ChessBoard {
 		String[][] temp = new String[3][2];
 		int alphaIndex = cIndexOf(current.getCol());
 		int tempRow =0;
-		if( current.getRow() -1 > 0)
-		{
+		if( current.getRow() -1 > 0) {
 			String[] iArray = {col[alphaIndex], Integer.toString(current.getRow() + 1)};
 			temp[tempRow] = iArray;
 			tempRow ++;
-
-			if( alphaIndex +1 < board[current.getRow()].length)
-			{
+			if( alphaIndex +1 < board[current.getRow()].length){
 				String[] iArray2 = {col[alphaIndex +1], Integer.toString(current.getRow() + 1)};
 				temp[tempRow] = iArray2;
 				tempRow ++;
 			}
-			if( alphaIndex -1 >= 0)
-			{
+			if( alphaIndex -1 >= 0) {
 				String[] iArray3 =  {col[alphaIndex -1], Integer.toString(current.getRow() + 1)};
 				temp[tempRow] = iArray3;
 				tempRow++;
-
 			}
 		}
-
-
 		return temp;
 	}
 
@@ -321,32 +342,26 @@ public class ChessBoard {
 		String[][] temp = new String[8][2];
 		int alphaIndex = cIndexOf(current.getCol());
 		int tempRow =0;
-
-		if(alphaIndex - 1 > 0)
-		{
-			if( current.getRow() -2 >= 0)
-			{
+		if(alphaIndex - 1 > 0) {
+			if( current.getRow() -2 >= 0) {
 				String[] iArray = {col[alphaIndex -1], Integer.toString(current.getRow() - 2)};
 				temp[tempRow] = iArray;
 				tempRow ++;
 			}
-			if( current.getRow() +2 < board.length)
-			{
+			if( current.getRow() +2 < board.length) {
 				String[] iArray = {col[alphaIndex -1], Integer.toString(current.getRow() + 2)};
 				temp[tempRow] = iArray;
 				tempRow ++;
 			}
 		}
-		if(alphaIndex - 2 > 0)
-		{
+		if(alphaIndex - 2 > 0) {
 			if( current.getRow() -1 >= 0)
 			{
 				String[] iArray = {col[alphaIndex -2], Integer.toString(current.getRow() - 1)};
 				temp[tempRow] = iArray;
 				tempRow ++;
 			}
-			if( current.getRow() +1 < board.length)
-			{
+			if( current.getRow() +1 < board.length) {
 				String[] iArray = {col[alphaIndex -2], Integer.toString(current.getRow() + 1)};
 				temp[tempRow] = iArray;
 				tempRow ++;
@@ -613,8 +628,12 @@ public class ChessBoard {
 		target.setChessPiece(piece);
 		previous.setChessPiece(null);
 	}
-	
+
 	public BoardTile[][] getBoard(){
 		return board;
+	}
+
+	public String[] getChessPieces() {
+		return chessPieces;
 	}
 }
