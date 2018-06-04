@@ -20,5 +20,11 @@ public class ChessPiece implements Serializable{
 	public ImageIcon getPieceImage() {
 		return pieceImage;
 	}
+	public BoardTile getCurrentTile() {
+		return currentTile;
+	}
+	public void setCurrentTile(BoardTile currentTile) {
+		this.currentTile = currentTile;
+	}
 
 }

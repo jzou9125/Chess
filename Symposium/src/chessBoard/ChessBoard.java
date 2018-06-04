@@ -60,34 +60,192 @@ public class ChessBoard {
 		writeChessTiles();
 	}
 
-	public BoardTile[] viableMoves(BoardTile current){
+	public BoardTile[] viableMoves(ChessPiece current){
 		BoardTile[] viableInputs = null;
-		if(current.getPiece().getPieceType().equals("Rook")) {
-			viableInputs = rookVia(current.getRookMovements(), current.getCol(), current.getRow(), current.getPiece());
+		if(current.getPieceType().equals("Rook")) {
+			viableInputs = rookVia(current.getCurrentTile().getRookMovements(), current.getCurrentTile().getCol(), current.getCurrentTile().getRow(), current);
+		}else {
+			if(current.getPieceType().equals("Knight")) {
+				viableInputs = knightVia(current.getCurrentTile().getKnightMovements(), current);
+			}else {
+				if(current.getPieceType().equals("Bishop")) {
+					viableInputs = bishopVia(current.getCurrentTile().getBishopMovements(), current.getCurrentTile().getCol(), current.getCurrentTile().getRow(), current);
+				}else {
+					if( current.getPieceType().equals("Queen")) {
+						viableInputs = queenVia(current.getCurrentTile().getQueenMovements(),  current.getCurrentTile().getCol(), current.getCurrentTile().getRow(), current);
+					}
+				}
+			}
 		}
-
-		if(current.getPiece().getPieceType().equals("Knight")) {
-			viableInputs = knightVia(current.getKnightMovements(), current.getPiece());
-		}
-
-		if(current.getPiece().getPieceType().equals("Bishop")) {
-			viableInputs = bishopVia(current.getBishopMovements(), current.getCol(), current.getRow(), current.getPiece());
-		}
-
-
 		return viableInputs;
 	}
 
-	private BoardTile[] bishopVia(String[][] bishopMovements, String currentCol, int row, ChessPiece piece) {
-		BoardTile[] ans = new BoardTile[bishopMovements.length];
-		BoardTile[] nW = checkNorthWest(bishopMovements, currentCol, row, piece );
-		return null;
+	private BoardTile[] queenVia(String[][] queenMovements, String currentCol, int currentRow, ChessPiece piece) {
+		BoardTile[] ans = new BoardTile[queenMovements.length];
+		BoardTile[] nW = checkNorthWest(queenMovements, currentCol, currentRow, piece );
+		BoardTile[] nE = checkNorthEast(queenMovements, currentCol, currentRow, piece);
+		BoardTile[] sW = checkSouthWest(queenMovements, currentCol, currentRow, piece);
+		BoardTile[] sE = checkSouthEast(queenMovements, currentCol, currentRow, piece);
+		BoardTile[] right = checkRight(queenMovements, currentCol,piece);
+		BoardTile[] left = checkLeft( queenMovements, currentCol,piece);
+		BoardTile[] top = checkTop( queenMovements, currentRow,piece);
+		BoardTile[] bottom = checkBottom(queenMovements, currentRow, piece);
+		
+		return ans;
 	}
 
-	private BoardTile[] checkNorthWest(String[][] bishopMovements, String currentCol, int row, ChessPiece piece) {
-		BoardTile[]
+	private BoardTile[] bishopVia(String[][] bishopMovements, String currentCol, int currentRow, ChessPiece piece) {
+		BoardTile[] ans = new BoardTile[bishopMovements.length];
+		BoardTile[] nW = checkNorthWest(bishopMovements, currentCol, currentRow, piece );
+		BoardTile[] nE = checkNorthEast(bishopMovements, currentCol, currentRow, piece);
+		BoardTile[] sW = checkSouthWest(bishopMovements, currentCol, currentRow, piece);
+		BoardTile[] sE = checkSouthEast(bishopMovements, currentCol, currentRow, piece);
+		ans = append4Arrays(nW, nE, sW, sE);
+		return ans;
+	}
 
-		return null;
+	private BoardTile[] checkSouthEast(String[][] possibleMoves, String currentCol, int currentRow, ChessPiece piece) {
+		int currentIdx = 0;
+		for(int i =0; i< possibleMoves.length; i++){
+			String[] key = possibleMoves[i];
+			int j = i-1;
+			while(j >= 0 && (possibleMoves[j][0].compareTo(key[0]) < 0 && Integer.parseInt(possibleMoves[j][1]) < Integer.parseInt(key[1]) )) {
+				possibleMoves[j+ 1] = possibleMoves [j];
+				j--;
+			}
+			possibleMoves[j +1] = key;
+		}
+		int length = 0;
+		for( int i = 0; i< possibleMoves.length; i++) {
+			if( currentCol.compareTo(possibleMoves[i][0]) > 0 || currentRow > Integer.parseInt(possibleMoves[i][1])) {
+				length = i -1;
+				break;
+			}
+		}
+		BoardTile[] sorted = new BoardTile[length];
+		for(int i = length; i>= 0; i--){
+			BoardTile tile = board[cIndexOf(possibleMoves[i][0])][Integer.parseInt(possibleMoves[i][1])];
+			if(tile.getPiece() != null) {
+				if(compareType(piece, tile.getPiece())){
+					sorted[currentIdx] = tile;
+					currentIdx ++;
+					break;
+				}
+			}
+			else{
+				sorted[currentIdx] = tile;
+				currentIdx ++;
+			}
+		}
+		return sorted;
+	}
+
+	private BoardTile[] checkSouthWest(String[][] possibleMoves, String currentCol, int currentRow, ChessPiece piece) {
+		int currentIdx = 0;
+		for(int i =0; i< possibleMoves.length; i++){
+			String[] key = possibleMoves[i];
+			int j = i-1;
+			while(j >= 0 && (possibleMoves[j][0].compareTo(key[0]) > 0 && Integer.parseInt(possibleMoves[j][1]) < Integer.parseInt(key[1]) )) {
+				possibleMoves[j+ 1] = possibleMoves [j];
+				j--;
+			}
+			possibleMoves[j +1] = key;
+		}
+		int length = 0;
+		for( int i = 0; i< possibleMoves.length; i++) {
+			if( currentCol.compareTo(possibleMoves[i][0]) > 0 || currentRow > Integer.parseInt(possibleMoves[i][1])) {
+				length = i -1;
+				break;
+			}
+		}
+		BoardTile[] sorted = new BoardTile[length];
+		for(int i = length; i>= 0; i--){
+			BoardTile tile = board[cIndexOf(possibleMoves[i][0])][Integer.parseInt(possibleMoves[i][1])];
+			if(tile.getPiece() != null) {
+				if(compareType(piece, tile.getPiece())){
+					sorted[currentIdx] = tile;
+					currentIdx ++;
+					break;
+				}
+			}
+			else{
+				sorted[currentIdx] = tile;
+				currentIdx ++;
+			}
+		}
+		return sorted;
+	}
+
+	private BoardTile[] checkNorthEast(String[][] possibleMoves, String currentCol, int currentRow, ChessPiece piece) {
+		int currentIdx = 0;
+		for(int i =0; i< possibleMoves.length; i++){
+			String[] key = possibleMoves[i];
+			int j = i-1;
+			while(j >= 0 && (possibleMoves[j][0].compareTo(key[0]) < 0 && Integer.parseInt(possibleMoves[j][1]) > Integer.parseInt(key[1]) )) {
+				possibleMoves[j+ 1] = possibleMoves [j];
+				j--;
+			}
+			possibleMoves[j +1] = key;
+		}
+		int length = 0;
+		for( int i = 0; i< possibleMoves.length; i++) {
+			if( currentCol.compareTo(possibleMoves[i][0]) > 0 || currentRow < Integer.parseInt(possibleMoves[i][1])) {
+				length = i -1;
+				break;
+			}
+		}
+		BoardTile[] sorted = new BoardTile[length];
+		for(int i = length; i>= 0; i--){
+			BoardTile tile = board[cIndexOf(possibleMoves[i][0])][Integer.parseInt(possibleMoves[i][1])];
+			if(tile.getPiece() != null) {
+				if(compareType(piece, tile.getPiece())){
+					sorted[currentIdx] = tile;
+					currentIdx ++;
+					break;
+				}
+			}
+			else{
+				sorted[currentIdx] = tile;
+				currentIdx ++;
+			}
+		}
+		return sorted;
+	}
+
+	private BoardTile[] checkNorthWest(String[][] possibleMoves, String currentCol, int currentRow, ChessPiece piece) {
+		int currentIdx = 0;
+		for(int i =0; i< possibleMoves.length; i++){
+			String[] key = possibleMoves[i];
+			int j = i-1;
+			while(j >= 0 && (possibleMoves[j][0].compareTo(key[0]) > 0 && Integer.parseInt(possibleMoves[j][1]) > Integer.parseInt(key[1]) )) {
+				possibleMoves[j+ 1] = possibleMoves [j];
+				j--;
+			}
+			possibleMoves[j +1] = key;
+		}
+		int length = 0;
+		for( int i = 0; i< possibleMoves.length; i++) {
+			if( currentCol.compareTo(possibleMoves[i][0]) < 0 || currentRow < Integer.parseInt(possibleMoves[i][1])) {
+				length = i -1;
+				break;
+			}
+		}
+		BoardTile[] sorted = new BoardTile[length];
+		for(int i = length; i>= 0; i--){
+			BoardTile tile = board[cIndexOf(possibleMoves[i][0])][Integer.parseInt(possibleMoves[i][1])];
+			if(tile.getPiece() != null) {
+				if(compareType(piece, tile.getPiece())){
+					sorted[currentIdx] = tile;
+					currentIdx ++;
+					break;
+				}
+			}
+			else{
+				sorted[currentIdx] = tile;
+				currentIdx ++;
+			}
+		}
+		return sorted;
 	}
 
 	private BoardTile[] knightVia(String[][] knightMovements, ChessPiece current) {
@@ -117,14 +275,10 @@ public class ChessBoard {
 		return false;
 	}
 	public BoardTile[] rookVia(String[][] possibleMoves, String currentCol, int currentRow, ChessPiece check){
-		int currentIndex =0;
-		BoardTile[] right = checkRight(possibleMoves, currentCol, currentIndex,check);
-		currentIndex += col[7].compareTo(currentCol);
-		BoardTile[] left = checkLeft( possibleMoves, currentCol, currentIndex,check);
-		currentIndex += currentCol.compareTo(col[0]);
-		BoardTile[] top = checkTop( possibleMoves, currentRow, currentIndex,check);
-		currentIndex += currentRow;
-		BoardTile[] bottom = checkBottom(possibleMoves, currentRow, currentIndex, check);
+		BoardTile[] right = checkRight(possibleMoves, currentCol,check);
+		BoardTile[] left = checkLeft( possibleMoves, currentCol,check);
+		BoardTile[] top = checkTop( possibleMoves, currentRow,check);
+		BoardTile[] bottom = checkBottom(possibleMoves, currentRow, check);
 		BoardTile[] viableInputs = append4Arrays(right, left, top, bottom);
 		return viableInputs;
 	}
@@ -156,55 +310,106 @@ public class ChessBoard {
 		return ans;
 	}
 
-	private BoardTile[] checkBottom(String[][] possibleMoves, int currentRow, int startIdx, ChessPiece check) {
-		BoardTile[] ans = new BoardTile[possibleMoves.length];
-		for(int i = 0; i < 8-currentRow; i++){
-			if(board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])].getPiece() == null)
-				ans[i] = board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])];
-			else {
-				if(compareType(board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])].getPiece(), check)) {
-					ans[i] = board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])];
-					break;
+	private BoardTile[] checkBottom(String[][] possibleMoves, int currentRow, ChessPiece check) {
+		int length = 0;
+		for(int i = 0; i<possibleMoves.length -1 ; i++) {
+			String[] change = possibleMoves[0];
+			int idx = i;
+			for(int j = i+1; j< possibleMoves.length; j++) {
+				if(Integer.parseInt(possibleMoves[j][1]) > currentRow) {
+					change = possibleMoves[j];
+					idx = j;
 				}
-				else break;
+			}
+			if(i == idx) {
+				length = i;
+				break;
+			}
+			String[] holder = change;
+			possibleMoves[idx] = possibleMoves[i];
+			possibleMoves[i] = change;
+		}
+		BoardTile[] ans = new BoardTile[length];
+		for(int i = 0; i < length; i++){
+			if(board[cIndexOf(possibleMoves[i][0])][Integer.parseInt(possibleMoves[i][1])].getPiece() == null)
+				ans[i] = board[cIndexOf(possibleMoves[i][0])][Integer.parseInt(possibleMoves[i][1])];
+			else {
+				if(compareType(board[cIndexOf(possibleMoves[i][0])][Integer.parseInt(possibleMoves[i][1])].getPiece(), check)) {
+					ans[i] = board[cIndexOf(possibleMoves[i][0])][Integer.parseInt(possibleMoves[i][1])];
+					break;
+				} else break;
 			}
 		}
 		return ans;
 	}
 
-	private BoardTile[] checkTop(String[][] possibleMoves, int currentRow, int startIdx, ChessPiece check) {
-		BoardTile[] ans = new BoardTile[possibleMoves.length];
-		for(int i = 0; i < currentRow; i++) {
-			if(board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])].getPiece() == null)
-				ans[i] = board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])];
-			else {
-				if(compareType(board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])].getPiece(), check)) {
-					ans[i] = board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])];
-					break;
+	private BoardTile[] checkTop(String[][] possibleMoves, int currentRow, ChessPiece check) {
+		int length = 0;
+		for(int i = 0; i<possibleMoves.length -1 ; i++) {
+			String[] change = possibleMoves[0];
+			int idx = i;
+			for(int j = i+1; j< possibleMoves.length; j++) {
+				if(Integer.parseInt(possibleMoves[j][1]) < currentRow) {
+					change = possibleMoves[j];
+					idx = j;
 				}
-				else break;
+			}
+			if(i == idx) {
+				length = i;
+				break;
+			}
+			String[] holder = change;
+			possibleMoves[idx] = possibleMoves[i];
+			possibleMoves[i] = change;
+		}
+		BoardTile[] ans = new BoardTile[length];
+		for(int i = 0; i < length; i++){
+			if(board[cIndexOf(possibleMoves[i][0])][Integer.parseInt(possibleMoves[i][1])].getPiece() == null)
+				ans[i] = board[cIndexOf(possibleMoves[i][0])][Integer.parseInt(possibleMoves[i][1])];
+			else {
+				if(compareType(board[cIndexOf(possibleMoves[i][0])][Integer.parseInt(possibleMoves[i][1])].getPiece(), check)) {
+					ans[i] = board[cIndexOf(possibleMoves[i][0])][Integer.parseInt(possibleMoves[i][1])];
+					break;
+				} else break;
 			}
 		}
 		return ans;
 	}
 
-	private BoardTile[] checkLeft(String[][] possibleMoves, String currentCol, int startIdx, ChessPiece check) {
-		BoardTile[] ans = new BoardTile[possibleMoves.length];
-		for(int i = 0; i<currentCol.compareTo(col[0]); i++) {
-			if(board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])].getPiece() == null)
-				ans[i] = board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])];
-			else {
-				if(compareType(board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])].getPiece(), check)) {
-					ans[i] = board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])];
-					break;
+	private BoardTile[] checkLeft(String[][] possibleMoves, String currentCol, ChessPiece check) {
+		int length = 0;
+		for(int i = 0; i<possibleMoves.length -1 ; i++) {
+			String[] change = possibleMoves[0];
+			int idx = i;
+			for(int j = i+1; j< possibleMoves.length; j++) {
+				if(possibleMoves[j][0].compareTo(change[0])) {
+					change = possibleMoves[j];
+					idx = j;
 				}
-				else break;
+			}
+			if(i == idx) {
+				length = i;
+				break;
+			}
+			String[] holder = change;
+			possibleMoves[idx] = possibleMoves[i];
+			possibleMoves[i] = change;
+		}
+		BoardTile[] ans = new BoardTile[length];
+		for(int i = 0; i < length; i++){
+			if(board[cIndexOf(possibleMoves[i][0])][Integer.parseInt(possibleMoves[i][1])].getPiece() == null)
+				ans[i] = board[cIndexOf(possibleMoves[i][0])][Integer.parseInt(possibleMoves[i][1])];
+			else {
+				if(compareType(board[cIndexOf(possibleMoves[i][0])][Integer.parseInt(possibleMoves[i][1])].getPiece(), check)) {
+					ans[i] = board[cIndexOf(possibleMoves[i][0])][Integer.parseInt(possibleMoves[i][1])];
+					break;
+				} else break;
 			}
 		}
 		return ans;
 	}
 
-	private BoardTile[] checkRight(String[][] possibleMoves, String currentCol, int startIdx, ChessPiece check) {
+	private BoardTile[] checkRight(String[][] possibleMoves, String currentCol, ChessPiece check) {
 		BoardTile[] ans = new BoardTile[possibleMoves.length];
 		for(int i = 0; i<col[7].compareTo(currentCol); i++){
 			if(board[cIndexOf(possibleMoves[startIdx + i][0])][Integer.parseInt(possibleMoves[startIdx + i][1])].getPiece() == null)
