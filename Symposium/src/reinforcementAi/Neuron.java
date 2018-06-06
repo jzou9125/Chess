@@ -1,6 +1,8 @@
 package reinforcementAi;
 
-public class Neuron {
+import java.io.Serializable;
+
+public class Neuron implements Serializable{
 
 	private Neuron[] network;
 	private int[] inputs;

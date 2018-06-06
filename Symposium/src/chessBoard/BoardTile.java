@@ -26,46 +26,36 @@ public class BoardTile implements Serializable {
 		this.row = row;
 	}
 
-	public ChessPiece getPiece()
-	{
+	public ChessPiece getPiece() {
 		return piece;
 	}
 
-	public String[][] getmov(String s)
-	{
-		if(s.equals("WPawn"))
-		{
+	public String[][] getmov(String s) {
+		if(s.equals("WPawn")) {
 			return getwPawnMovements();
 		}
-		if(s.equals("BPawn"))
-		{
+		if(s.equals("BPawn")) {
 			return getbPawnMovements();
 		}
-		if(s.equals("Bishop"))
-		{
+		if(s.equals("Bishop")) {
 			return getBishopMovements();
 		}
-		if(s.equals("Queen"))
-		{
+		if(s.equals("Queen")) {
 			return getQueenMovements();
 		}
-		if(s.equals("King"))
-		{
+		if(s.equals("King")) {
 			return getKingMovements();
 		}
-		if(s.equals("Rook"))
-		{
+		if(s.equals("Rook")) {
 			return getRookMovements();
 		}
-		if(s.equals("Knight"))
-		{
+		if(s.equals("Knight")) {
 			return getKnightMovements();
 		}
 		return null;
 	}
 	
-	public void setChessPiece(ChessPiece piece)
-	{
+	public void setChessPiece(ChessPiece piece) {
 		this.piece = piece; 
 	}
 	public void setKnightMovements(String[][] knightMovements) {

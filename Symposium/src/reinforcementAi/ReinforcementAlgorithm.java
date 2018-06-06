@@ -1,8 +1,13 @@
 package reinforcementAi;
 
-import chessBoard.ChessBoard;
+import java.io.Serializable;
+import java.util.ArrayList;
 
-public class ReinforcementAlgorithm {
+import chessBoard.BoardTile;
+import chessBoard.ChessBoard;
+import game.Starter;
+
+public class ReinforcementAlgorithm implements Serializable{
 
 	Neuron[][] network = new Neuron[20][64];
 	public ReinforcementAlgorithm()
@@ -33,7 +38,7 @@ public class ReinforcementAlgorithm {
 	 * Takes considers the state
 	 * 
 	 */
-	public void inputData(ChessBoard currentState)
+	public void inputData(ArrayList<ArrayList<BoardTile>> via)
 	{
 		
 	}
