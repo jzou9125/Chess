@@ -11,7 +11,7 @@ public class Neuron implements Serializable{
 	private double weight;
 	private double threshold;
 	
-	public Neuron() {
+	public Neuron(int[] inputs, double threshold) {
 		bias = (Math.random()*2) -1;
 		weight = (Math.random()*2) -1;
 	}

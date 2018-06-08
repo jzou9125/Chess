@@ -26,10 +26,6 @@ public class GUI {
 	private JScrollPane scroll;
 	private GridLayout l;
 	
-	private JPanel currentScreen; // three screens (Load, and the Board)
-	private JPanel loadScreen;
-	private JPanel mainScreen;
-	
 	public GUI(ChessBoard board) {
 		b = board;
 		f = new JFrame();
