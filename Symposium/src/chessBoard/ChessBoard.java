@@ -28,11 +28,10 @@ public class ChessBoard {
 
 	private ChessPiece[] wPieces = new ChessPiece[16];
 	private ChessPiece[] bPieces = new ChessPiece[16];
-	private boolean[] viaWP = new boolean[16];
-	private boolean[] viaBP = new boolean[16];
+	ArrayList<ArrayList<BoardTile>> wVia = new ArrayList<ArrayList<BoardTile>>(); //legal moves
+	ArrayList<ArrayList<BoardTile>> bVia = new ArrayList<ArrayList<BoardTile>>(); //legal moves
 	
-	ArrayList<ArrayList<BoardTile>> wVia = new ArrayList<ArrayList<BoardTile>>();
-	ArrayList<ArrayList<BoardTile>> bVia = new ArrayList<ArrayList<BoardTile>>();
+	
 	public ChessBoard() {
 		/*try {
 			FileInputStream fileIn = new FileInputStream("Data/Board.ser");
@@ -126,31 +125,6 @@ public class ChessBoard {
 			}
 		}
 		return false;
-	}
-	
-	public void updateVia() {
-		wVia =  new ArrayList<ArrayList<BoardTile>>();
-		bVia = new ArrayList<ArrayList<BoardTile>>();
-		for(int i = 0; i< wPieces.length; i++) {
-			if(!wPieces[i].getPieceType().equals("WKing")) {
-				if( viableMoves(wPieces[i]).length != 0) {
-					wVia.add(new ArrayList<BoardTile>(Arrays.asList(viableMoves(wPieces[i]))));
-					viaWP[i] = true;
-				}
-				
-			}
-		}
-		for(int i = 0; i< bPieces.length; i++) {
-			if(!bPieces[i].getPieceType().equals("BKing")) {
-				if( viableMoves(bPieces[i]).length != 0) {
-					bVia.add(new ArrayList<BoardTile>(Arrays.asList(viableMoves(bPieces[i]))));
-					viaBP[i] = true;
-				}
-				
-			}
-		}
-		wVia.add(new ArrayList<BoardTile>(Arrays.asList(viableMoves(wPieces[12]))));
-		bVia.add(new ArrayList<BoardTile>(Arrays.asList(viableMoves(bPieces[12]))));
 	}
 
 	public BoardTile[] viableMoves(ChessPiece current){
