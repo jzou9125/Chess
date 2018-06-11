@@ -66,23 +66,52 @@ public class ChessBoard {
 		writeChessTiles();
 	}
 	
-	public void valueSystem(BoardTile move) {
+	public int valueSystem(BoardTile move) {
 		if( move.getPiece() != null) {
-			
+			if(move.getPiece().getPieceType().equals("WRook") || move.getPiece().getPieceType().equals("BRook") ) {
+				return 3;
+			}else {
+				if(move.getPiece().getPieceType().equals("WKnight") || move.getPiece().getPieceType().equals("BKnight")) {
+					return 3;
+				}else {
+					if(move.getPiece().getPieceType().equals("WBishop") || move.getPiece().getPieceType().equals("BBishop")) {
+						return 3;
+					}else {
+						if( move.getPiece().getPieceType().equals("WQueen") || move.getPiece().getPieceType().equals("BQueen")) {
+							return 9;
+						}else {
+								if(move.getPiece().getPieceType().equals("Pawn") || move.getPiece().getPieceType().equals("BPawn")) {
+								return 2;
+							}
+						}
+					}
+				}
+			}
 		}
+		return 1;
 	}
 	
-	public void castle() {
-		
+	/*Your king has been moved earlier in the game.
+	The rook that castles has been moved earlier in the game.
+	There are pieces standing between your king and rook.
+	The king is in check.
+	The king moves through a square that is attacked by a piece of the opponent.
+	The king would be in check after castling.*/
+	public boolean castle(ChessPiece currentKing) {
+		if(checked(currentKing)) {
+			return false;
+		}
+		if()
+		return true;
 	}
 	
-	public boolean checkMate(ChessPiece current) {
+	public boolean checked(ChessPiece current) {
 		if( current.getPieceType().substring(0, 1).equals("W")) {
 			ArrayList<BoardTile> check = bVia.get(12);
 			for( ArrayList<BoardTile> l: bVia) {
 				for(BoardTile e: l) {
 					if(check.indexOf(e) != -1) {
-						check.remove(check.indexOf(e));
+						return true;
 					}
 				}
 			}
@@ -91,7 +120,7 @@ public class ChessBoard {
 			for( ArrayList<BoardTile> l: bVia) {
 				for(BoardTile e: l) {
 					if(check.indexOf(e) != -1) {
-						check.remove(check.indexOf(e));
+						return true;
 					}
 				}
 			}
@@ -200,39 +229,11 @@ public class ChessBoard {
 					nAns[currentIdx] = ans[i];
 					currentIdx ++;
 				}
-			} else {
-				if(check(ans[i], current.getPieceType().substring(0, 1))) {
-					nAns[currentIdx] = ans[i];
-					currentIdx ++;
-				}
 			}
 		}
 		return ans;
 	}
-
-	private boolean check(BoardTile boardTile, String side) {
-		boolean notBlocked = true;
-		if(side.compareTo("W") == 0) {
-			for(ArrayList<BoardTile> b: wVia) {
-				for(BoardTile e: b) {
-					if(e.equals(boardTile)) {
-						notBlocked = false;
-					}
-				}
-			}
-		} else {
-			for(ArrayList<BoardTile> b: bVia) {
-				for(BoardTile e: b) {
-					if(e.equals(boardTile)) {
-						notBlocked = false;
-					}
-				}
-			}
-		}
-
-		return notBlocked;
-	}
-
+	
 	private BoardTile[] queenVia(String[][] queenMovements, String currentCol, int currentRow, ChessPiece piece) {
 		BoardTile[] nW = checkNorthWest(queenMovements, currentCol, currentRow, piece );
 		BoardTile[] nE = checkNorthEast(queenMovements, currentCol, currentRow, piece);
