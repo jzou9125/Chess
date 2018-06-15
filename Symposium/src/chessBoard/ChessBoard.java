@@ -96,13 +96,15 @@ public class ChessBoard {
 	The king is in check.
 	The king moves through a square that is attacked by a piece of the opponent.
 	The king would be in check after castling.*/
-	public boolean castle(ChessPiece currentKing) {
+	
+	
+/*	public boolean castle(ChessPiece currentKing) {
 		if(checked(currentKing)) {
 			return false;
 		}
 		if()
 		return true;
-	}
+	}*/
 	
 	public boolean checked(ChessPiece current) {
 		if( current.getPieceType().substring(0, 1).equals("W")) {

@@ -20,11 +20,7 @@ public class Starter {
 		//ai start + determine environment
 	}
 	
-	public ChessBoard getBoard()
-	{
-		return board;
-	}
-
+	
 	public boolean actionPosible(String side)
 	{
 		return false;
@@ -35,4 +31,10 @@ public class Starter {
 	{
 		
 	}
+	
+	public ChessBoard getBoard()
+	{
+		return board;
+	}
+
 }

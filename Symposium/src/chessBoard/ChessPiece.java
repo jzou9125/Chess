@@ -6,9 +6,11 @@ import javax.swing.ImageIcon;
 
 public class ChessPiece implements Serializable{
 
-	String pieceType;
-	ImageIcon pieceImage;
-	BoardTile currentTile;
+	private String pieceType;
+	private ImageIcon pieceImage;
+	private BoardTile currentTile;
+	private boolean hasMoved = false;
+
 	public ChessPiece( String desc, ImageIcon image, BoardTile tile) {
 		pieceType = desc;
 		pieceImage = image;
@@ -26,5 +28,10 @@ public class ChessPiece implements Serializable{
 	public void setCurrentTile(BoardTile currentTile) {
 		this.currentTile = currentTile;
 	}
-
+	public boolean isHasMoved() {
+		return hasMoved;
+	}
+	public void setHasMoved(boolean hasMoved) {
+		this.hasMoved = hasMoved;
+	}
 }

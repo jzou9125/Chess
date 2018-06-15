@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public class Neuron implements Serializable{
 
-	private Neuron[] network;
 	private int[] inputs;
+	private Neuron[] output;
 	private double bias;
 	private double weightedSum;
 	private double weight;
@@ -14,7 +14,9 @@ public class Neuron implements Serializable{
 	public Neuron(int[] inputs, double threshold) {
 		bias = (Math.random()*2) -1;
 		weight = (Math.random()*2) -1;
+		this.inputs = inputs;
 	}
+	
 	
 	public double activationFunction()
 	{
@@ -31,10 +33,13 @@ public class Neuron implements Serializable{
 	{
 		inputs = values;
 	}
+
+	public void setInputs(int[] inputs) {
+		this.inputs = inputs;
+	}
 	
-	public void removeConnection(int idx)
-	{
-		network[idx] = null;
+	public void setOutput(Neuron[] output) {
+		this.output = output;
 	}
 
 }
