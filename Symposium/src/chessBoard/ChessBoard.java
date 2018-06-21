@@ -128,6 +128,12 @@ public class ChessBoard {
 		}
 		return false;
 	}
+	public void allVia() {
+		for(int i =0; i<wPieces.length; i ++) {
+			wVia.set(i, new ArrayList<BoardTile>(Arrays.asList(viableMoves(wPieces[i]))));
+			bVia.set(i, new ArrayList<BoardTile>(Arrays.asList(viableMoves(bPieces[i]))));
+		}
+	}
 
 	public BoardTile[] viableMoves(ChessPiece current){
 		BoardTile[] viableInputs = null;
@@ -991,5 +997,13 @@ public class ChessBoard {
 
 	public String[] getChessPieces() {
 		return chessPieces;
+	}
+
+	public ArrayList<ArrayList<BoardTile>> getwVia() {
+		return wVia;
+	}
+
+	public ArrayList<ArrayList<BoardTile>> getbVia() {
+		return bVia;
 	}
 }

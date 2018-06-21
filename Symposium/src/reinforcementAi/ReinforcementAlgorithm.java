@@ -12,21 +12,44 @@ public class ReinforcementAlgorithm implements Serializable{
 
 	private Neuron[][] networkB;
 	private Neuron[][] networkW;
-	private ArrayList<Action> mov = new ArrayList<Action>();
+	ArrayList<gameState> wGameHistory = new ArrayList<gameState>();
+	ArrayList<gameState> bGameHistory = new ArrayList<gameState>();
 	private Starter hub;
 	
 	public ReinforcementAlgorithm(Starter hub) {
-		networkB = new Neuron[129][64]; //+2 if I finish castle
-		networkW = new Neuron[129][64];
-		this.hub = hub; 
+		networkB = new Neuron[64][129]; //+2 for castle
+		networkW = new Neuron[64][129];
+		createNeuralN(networkB);
+		createNeuralN(networkW);
+		this.hub = hub;
+		
+		wGameHistory.add(new gameState(hub.getBoard().getwVia()));
+		bGameHistory.add(new gameState(hub.getBoard().getbVia()));
 	}
 	
-	public void createNeuralN(Neuron[][] arr) {
-		for(int row =0; row < arr.length; row++) {
-			for(int col = 0; col< arr[row].length; col++) {
-				arr[row][col] = new Neuron(null, col);
+	public void makeAMove() {
+		if(Math.random() < .5) {
+			
+		}
+	}
+	
+	public void connectNeuralN(Neuron[][] arr) {
+		for(int i = 0; i< arr.length -1; i++) {
+			for(int j = 0; j<arr[i].length; j++) {
+				arr[i][j].setOutput(arr[i+1]);
 			}
 		}
+	}
+	public void createNeuralN(Neuron[][] arr) {
+		for(int row =0; row < arr.length-1; row++) {
+			for(int col = 0; col< arr[row].length; col++) {
+				arr[row][col] = new Neuron(null);
+			}
+		}
+		for(int i = 0; i< 16; i++ ) {
+			arr[arr.length-1][i] = new Neuron(null);
+		}
+		connectNeuralN(arr);
 	}
 	
 	/*Monte Carlo Tree Search backpropagation
@@ -38,24 +61,10 @@ public class ReinforcementAlgorithm implements Serializable{
 		
 	}
 	
-	
-	//if anything becomes useless
-	//  probably unnecessary
-	public void pruningConnections() {
-		
-	}
-	
-	/*
-	 * Takes all legal moves
-	 * Takes considers the state?
-	 * 
-	 */
-	public void inputData(ArrayList<ArrayList<BoardTile>> via)
+	public void inputData(double[] value, Neuron[][] neuralNet)
 	{
-		for(ArrayList<BoardTile> a: via) {
-			for(BoardTile e: a) {
-				
-			}
+		for(int i = 0; i<neuralNet.length; i++) {
+			neuralNet[0][i].addInputs(value[i]);
 		}
 	}
 	
