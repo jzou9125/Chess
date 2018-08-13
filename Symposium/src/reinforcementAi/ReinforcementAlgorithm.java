@@ -27,12 +27,6 @@ public class ReinforcementAlgorithm implements Serializable{
 		bGameHistory.add(new gameState(hub.getBoard().getbVia()));
 	}
 	
-	public void makeAMove() {
-		if(Math.random() < .5) {
-			
-		}
-	}
-	
 	public void connectNeuralN(Neuron[][] arr) {
 		for(int i = 0; i< arr.length -1; i++) {
 			for(int j = 0; j<arr[i].length; j++) {
@@ -61,7 +55,7 @@ public class ReinforcementAlgorithm implements Serializable{
 		
 	}
 	
-	public void inputData(double[] value, Neuron[][] neuralNet)
+	public void inputData(double[] value, Neuron[][] neuralNet) 
 	{
 		for(int i = 0; i<neuralNet.length; i++) {
 			neuralNet[0][i].addInputs(value[i]);
